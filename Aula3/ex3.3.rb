@@ -2,22 +2,27 @@ def ordena (arr)
 	#Migué: arr.sort
 
 	#Não migué:
-	ordenado = FALSE
-	while !ordenado do
-		
-		for 0.upto(arr.size - 1) do
 
-			if arr[i] > arr[i+1]
-					temp = arr[i]
-					arr[i] = arr[i+1]
-					arr[i+1] = temp
-			end
-
-		end
-
+	if arr.size < 2 
+		return arr
 	end
 
-	arr
+	pivo = arr[arr.size.floor]
+	arr.delete[pivo]
+
+	men = []
+	mai = []
+
+	for arr.each do |elemento|
+
+		if elemento < pivo
+			men.push[elemento]
+		elsif elemento > pivo
+			mai.push[elemento]
+		end
+	end
+
+	return men,pivo,maior
 
 end
 
