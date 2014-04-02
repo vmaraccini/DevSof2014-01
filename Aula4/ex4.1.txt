@@ -1,0 +1,21 @@
+﻿Victor Gabriel Maraccini
+
+Classe: Veiculo
+Atributos: origem,destino,itens[],posicao,@@todosOsVeiculos
+Métodos: adicionaItem,buscaItem,removeItem,pesoTotal
+
+Classe: Cliente
+Atributo: nome,idade,telefone...,itens[],@@todosOsClientes
+Métodos: adicionaItem,buscaItem,removeItem
+
+Classe: Item
+Atributo: nome,peso,dimensoes[],preço,categoria,quantidade,estoque,fragil,cliente,destino,origem,veiculo,entregue,posicao
+Métodos: 
+
+Classe: Frete
+Atributo: veiculos[], rota, entregaPrevista, valor
+Métodos: adicionaVeiculo, todosOsItens
+
+Classe: Rota
+Atributo: origem,destino,distanciaCalculada
+Métodos: calculaRota
