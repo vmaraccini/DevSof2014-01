@@ -6,12 +6,9 @@ class StudentAccount < CheckingAccount
 	MONTHLY_FEE = 0 #Overrides monthly fee	
 
 	def initialize
-
 		super
-		
 		@monthly_fee = MONTHLY_FEE
 		@credit_line = CREDIT_LINE
-
 	end
 
 end

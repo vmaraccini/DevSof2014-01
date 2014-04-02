@@ -12,7 +12,6 @@ class CheckingAccount < BankAccount
   def withdraw(amount)
 
     if @balance + @credit_line >= amount
-      #Allows the withdraw
       @balance -= amount
       log_transaction('Withdrawal', amount)
     end
