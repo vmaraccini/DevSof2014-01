@@ -97,8 +97,8 @@ str.scan(/(\d*:\d*).*\[(.*)\].(.*)/) { |match| puts match[1] + ": " + match[2] +
 puts "\n2:\n"
 
 i = 0
-str.scan(/($)/m) { |match|; i += match.length }
-puts "Existem #{i} linhas."
+str.scan(/($)/) { |match|; i += match.length } #Encontra os 'finais de linha'.
+puts "Existem #{i} linhas." 
 
 # 3) Quantas notícias de economia de falam sobre o dólar?
 puts "\n3: \n"
