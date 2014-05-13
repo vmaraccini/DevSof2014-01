@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Access-Control-Allow-Origin" content="*">
+
+  <!-- Page title -->
+  <title>Análise de dados | Estágios</title>
+
+  <!-- Mobile-friendly -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap (CSS framework) and Bootstrap's default theme -->
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+
+  <link rel="stylesheet" href="stylesheets/bootstrap.vertical-tabs.css">
+
+  <!-- Font Awesome (icons) -->
+  <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+  <!-- Project's main CSS file -->
+  <link rel="stylesheet" href="stylesheets/main.css">
+
+  <!-- Favicon (browser icon) -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+</head>
+
+<body>
+
+  <div class="container-fluid">
+
+    <div class="col-xs-12">
+
+      <header>
+
+      <div id="header" class="container-fluid">
+          <div class="row">
+            <div class="col-xs-6">
+              <h1>Victor Maraccini</h1>  
+            </div>  
+            <div class="col-xs-6">
+              <h2>Práticas de Desenvolvimento de Software</h2>
+            </div>  
+          </div>
+        </div>
+
+      </header>
+
+      <div id="main-content" class="container-fluid">
+
+        <div class="container col-xs-2">
+
+          <div class="row">
+            <div class="span3">
+              <ul class="nav nav-tabs nav-stacked" style="height:600px;margin-top:0px">
+
+                <li><a href="./resumo.html">Resumo</a></li>   
+                <li class="active"><a href="#">Vagas por Período</a></li>
+                <li><a href="./req.html">Requisitos:<br>Palavras-chave</a></li> 
+                <li><a href="./desc.html">Descrição:<br>Palavras-chave</a></li> 
+                <li><a href="./busca.html">Busca</a></li> 
+
+              </ul>
+            </div>
+          </div>
+
+        </div>
+
+        <div id="central" class="col-xs-10 panel well well-noBorder" style="height:600px">
+
+            <h1>Distribuição de vagas por data de publicação</h1>
+            <p>Data de coleta: <l id="dtColeta"></l></p>
+            <p>Total de vagas nesse período: <l id="totalVagas"></l></p>
+            
+            <form name="periodos">
+            
+            	<div id="selPeriodo">Organizar por:  </div>
+            	<div id="selSubPeriodo"></div>
+            	
+            </form>
+            
+            <div id="container" style="width:100%; height:75%;"/>
+
+        </div>
+          
+      </div>
+      
+    </div>
+
+  </div>
+
+  <footer>
+  Projeto desenvolvido para o curso Práticas de Desenvolvimento de Software
+  </footer>
+
+  <!-- Scripts go at the bottom so the pages loads faster -->
+
+  <!-- jQuery (JavaScript library) -->
+  <script src="javascripts/jquery-2.1.0.js"></script>
+
+  <!-- Bootstrap -->
+  <script src="javascripts/bootstrap.min.js"></script>
+
+  <!--Date utility-->
+  <script type="text/javascript" src="javascripts/date.js"></script>
+
+  <!--Chart-->
+  <script type="text/javascript" src="javascripts/highcharts/highcharts.js"></script>
+  <script type="text/javascript" src="javascripts/highcharts/modules/exporting.js"></script>
+
+  <!--Spinner-->
+  <script src="javascripts/spin.min.js" type="text/javascript"></script>
+  
+  <script type="text/javascript">
+  
+  	var months = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+  	
+  	//Create radios
+  	var options = ["Mês","Quadrimestre","Ano"];
+  	var reqVal = ["mes", "quad", "ano"];
+  	
+  	for (var i = 0; i < options.length; i++) {
+  	
+  		var rdio = document.createElement('input');
+  		rdio.type = 'radio';
+  		rdio.name = options[i];
+  		rdio.className = "radioButton"
+  		rdio.value = reqVal[i];
+  		
+  		if (i == 0) {
+  			rdio.checked = 1;
+  		}
+  		
+  		rdio.onchange = function (e) {
+  			
+  			//Deselect all others
+  			for (var i = 0; i < $(".radioButton").length; i++) {
+  			
+  				if ($(".radioButton")[i] !== e.target) {
+  					$(".radioButton")[i].checked = 0
+  				}
+  				
+  			}
+  			
+  			updateInterface(e.target.value);
+  			             	
+  		};
+  		
+  		$('#selPeriodo').append(rdio);
+  		$('#selPeriodo').append(" ");
+  		$('#selPeriodo').append(options[i]);
+  		$('#selPeriodo').append("&nbsp;");
+  	
+  	}
+  	
+  	updateInterface('mes')
+
+    function updateInterface(mode) {
+    
+    	$('#selSubPeriodo').empty();
+    
+	    //Add spinner
+	    var opts = {
+	      lines: 13, // The number of lines to draw
+	      length: 8, // The length of each line
+	      width: 3, // The line thickness
+	      radius: 8, // The radius of the inner circle
+	      corners: 1, // Corner roundness (0..1)
+	      rotate: 0, // The rotation offset
+	      direction: 1, // 1: clockwise, -1: counterclockwise
+	      color: '#000', // #rgb or #rrggbb or array of colors
+	      speed: 1, // Rounds per second
+	      trail: 60, // Afterglow percentage
+	      shadow: false, // Whether to render a shadow
+	      hwaccel: false, // Whether to use hardware acceleration
+	      className: 'spinner', // The CSS class to assign to the spinner
+	      zIndex: 2e9, // The z-index (defaults to 2000000000)
+	      top: '50%', // Top position relative to parent
+	      left: '50%' // Left position relative to parent
+	    };
+	    var target = document.getElementById('container');
+	    var spinner = new Spinner(opts).spin(target);
+        
+	    //Get JSON
+	    $.getJSON("data/vagas/" + mode + ".json", function(data) {
+	    
+	        //Remove spinner
+	        $('.spinner').fadeOut(function () {
+	        	$('.spinner').remove;
+	        });
+	        
+	        //Update interface
+	        date = data['date'];
+	        $("#dtColeta").text(Date.parse(date).toString());
+	        
+	        //Get raw data
+	        data = data['periods']; 
+	    	
+	    	if (mode == 'mes') {
+	    	
+	    		var dataKeys = Object.keys(data);
+	    		
+	    		//Get data and update chart
+	    		currPer = data[dataKeys[0]];
+	    		
+	    		var vagasSeries = [];
+	    		var keys = Object.keys(currPer);
+	    		keyStr = [];
+	    		
+	    		for (var i = 0; i < keys.length; i++) {
+	    			vagasSeries.push(currPer[keys[i]]);
+	    			keyStr.push(months[keys[i] - 1]);
+	    		}
+	    		
+	    		updateData('Vagas por mês', 'Mês', keyStr ,vagasSeries,'Ano de '+ dataKeys[0]);
+	    		
+	    		//Create buttons
+	    		for (var i = 0; i < dataKeys.length; i++) {
+	    		
+	    			var newButton = document.createElement('input');
+	    			newButton.type = 'button';
+	    			newButton.value = dataKeys[i];
+	    			newButton.className = "btn btn-default";
+	    			
+	    			if (i == 0) {
+	    				newButton.className = newButton.className + " active";
+	    			}
+	    			
+	    			newButton.onclick = function (e) {
+	    			
+	    				//Deselect all others
+	    				var currBtn;
+	    				for (var i = 0; i < (currBtn = $(".btn-default, .active")).length; i++) {
+	    					
+	    					if (currBtn !== $(this)) {
+	    						currBtn.removeClass("active");
+	    					}
+	    					
+	    				}
+	    				
+	    				$(this).toggleClass("active");
+	    				
+	    				var vagasSeries = [];
+	    				var keys = Object.keys(data[e.target.value]);
+	    				currPer = data[e.target.value];
+	    				
+	    				for (var i = 0; i < keys.length; i++) {
+	    					vagasSeries.push(currPer[keys[i]]);
+	    				}
+	    				
+	    				updateData('Vagas por mês', 'Mês', keys ,vagasSeries,'Ano de '+ e.target.value);
+	    				             	
+	    			};
+	    			
+	    			$('#selSubPeriodo').append(newButton);
+	    			    	
+	    		}
+	    		
+	    			
+	    	} else if (mode == 'quad') {
+	    	
+	    		var dataKeys = Object.keys(data);
+	    		
+	    		//Get data and update chart
+	    		currPer = data[dataKeys[0]];
+	    		
+	    		var vagasSeries = [];
+	    		var keys = Object.keys(currPer);
+	    		
+	    		for (var i = 0; i < keys.length; i++) {
+	    			vagasSeries.push(currPer[keys[i]]);
+	    		}
+	    		
+	    		updateData('Vagas por quadrimestre', 'Quadrimestre', keys ,vagasSeries,'Ano de '+ dataKeys[0]);
+	    		
+	    		//Create buttons
+	    		for (var i = 0; i < dataKeys.length; i++) {
+	    		
+	    			var newButton = document.createElement('input');
+	    			newButton.type = 'button';
+	    			newButton.value = dataKeys[i];
+	    			newButton.className = "btn btn-default";
+	    			
+	    			if (i == 0) {
+	    				newButton.className = newButton.className + " active";
+	    			}
+	    			
+	    			newButton.onclick = function (e) {
+	    			
+	    				//Deselect all others
+	    				var currBtn;
+	    				for (var i = 0; i < (currBtn = $(".btn-default, .active")).length; i++) {
+	    					
+	    					if (currBtn !== $(this)) {
+	    						currBtn.removeClass("active");
+	    					}
+	    					
+	    				}
+	    				
+	    				$(this).toggleClass("active");
+	    				
+	    				var vagasSeries = [];
+	    				var keys = Object.keys(data[e.target.value]);
+	    				currPer = data[e.target.value];
+	    				
+	    				for (var i = 0; i < keys.length; i++) {
+	    					vagasSeries.push(currPer[keys[i]]);
+	    				}
+	    				
+	    				updateData('Vagas por quadrimestre', 'Quadrimestre', keys ,vagasSeries,'Ano de '+ e.target.value);
+	    				             	
+	    			};
+	    			
+	    			$('#selSubPeriodo').append(newButton);
+	    			    	
+	    		} 			
+	    	
+	    	} else if (mode == 'ano') {
+	    	
+	    		var dataKeys = Object.keys(data);
+	    		var vagasSeries = [];
+	    		
+	    		for (var i = 0; i < dataKeys.length; i++) {
+	    			vagasSeries.push(data[dataKeys[i]]);
+	    		}
+	    		
+	    		updateData('Vagas por ano', 'Ano', dataKeys ,vagasSeries, null);
+	    	}
+	    	
+	    });
+    	
+    }
+    
+    function updateData(title, xAxisTitle, categories, seriesData, periodString) {
+
+    	var totalVagas = 0;
+    	
+    	var shouldDisplayLegend = false;
+    	
+	    for (var i = 0; i < seriesData.length; i++) {
+	    	totalVagas += seriesData[i];
+	    }
+
+	    $("#totalVagas").text(totalVagas.toString());
+    
+    	var chart = $('#container').highcharts({
+    	  chart: {
+    	      type: 'column',
+    	      backgroundColor:null
+    	  },
+    	  
+    	  title: {
+    	      text: title
+    	  },
+    	  xAxis: {
+    	  	allowDecimals: false,
+    	  	tickInterval: 1,
+    	  	categories: categories,
+    	  	title: {
+    	  			text: xAxisTitle
+    	  	}
+    	  },
+    	  yAxis: {
+    		  title: {
+    		  	
+    		  	text: 'Número de vagas'
+    		  }
+    	  },
+    	  series: [{
+    	              type: 'column',
+    	              name: periodString,
+    	              data: seriesData,
+    	              showInLegend: shouldDisplayLegend
+    	              
+    	           }]
+    	});
+    	
+    	$('#container').fadeOut(0);
+    	$('#container').fadeIn(500);
+    
+    }
+
+</script>
+
+</body>
+
+</html>
