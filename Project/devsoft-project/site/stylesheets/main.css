@@ -31,6 +31,64 @@ h2 {
 
 }
 
+.textField {
+	
+	font-size: 14px;
+	width: 40%;
+	float: left;
+	height: 30px;
+	
+}
+
+.wrapper {
+	overflow: auto;
+	overflow-x: hidden;
+}
+
+searchH {
+	font-size: 13px;
+	font-weight: bold;
+}
+
+searchHMain{
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.searchResult {
+	background-color: #f7f7f7;
+	box-shadow: 0 2px 5px #000000;
+	border-radius: 15px;
+	padding: 10px;
+	opacity: 1;
+	width: 100%;
+	float: none;
+	margin: auto;
+	margin-bottom: 15px;
+}
+
+label {
+
+    float: left;
+    font-size: 13px;
+    width: 40%;
+    text-align: right;
+    margin-right: 5px;
+    margin-bottom: 0px;
+    
+    line-height: 30px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+}
+
+.form-field-no-caption {
+    margin-left: 20%;
+    padding-left: 0.5em;
+}
+
 .multi-line-button {     
 	white-space: normal; 
 }
@@ -120,6 +178,26 @@ span {
 
 }
 
+table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+td {
+	
+	padding: 8px;
+	overflow: hidden;
+	
+}
+
+td.data {
+    width: 80%;
+}
+
+td.header {
+    width: 20%;
+}
+
 .navitem-multiline {
 
 	line-height:30px;
@@ -130,9 +208,13 @@ span {
 
 	margin-bottom: 0px;
 	border-radius: 0px;
-  background-color: white;
+  	background-color: white;
 
 
+}
+
+.well {
+	padding-top: 0px;
 }
 
 .panel-squareborder {
@@ -145,7 +227,6 @@ span {
 
 footer {
 
-  margin-top: 20px;
   text-align: center;
 
 }
@@ -206,6 +287,11 @@ li.active > a {
 #central > p {
   font-size: 13px;
   text-align: left;
+}
+
+#resultadosBusca > p {
+	font-size: 13px;
+	text-align: left;
 }
 
 #central > h1 {

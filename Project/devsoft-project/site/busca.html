@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Access-Control-Allow-Origin" content="*">
+  
+  <!-- Page title -->
+  <title>Análise de dados | Estágios</title>
+
+  <!-- Mobile-friendly -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap (CSS framework) and Bootstrap's default theme -->
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+
+  <link rel="stylesheet" href="stylesheets/bootstrap.vertical-tabs.css">
+
+  <!-- Font Awesome (icons) -->
+  <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+  <!-- Project's main CSS file -->
+  <link rel="stylesheet" href="stylesheets/main.css">
+
+  <!-- Favicon (browser icon) -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+</head>
+
+<body>
+
+  <div class="container-fluid">
+
+        <div class="col-xs-12">
+
+      <header>
+
+      <div id="header" class="container-fluid">
+          <div class="row">
+            <div class="col-xs-6">
+              <h1>Victor Maraccini</h1>  
+            </div>  
+            <div class="col-xs-6">
+              <h2>Práticas de Desenvolvimento de Software</h2>
+            </div>  
+          </div>
+        </div>
+
+      </header>
+
+      <div id="main-content" class="container-fluid">
+
+        <div class="container col-xs-2">
+
+          <div class="row">
+            <div class="span3">
+              <ul class="nav nav-tabs nav-stacked" style="height:600px;margin-top:0px">
+
+                <li><a href="./resumo.html">Resumo</a></li>   
+                <li><a href="./vagas.html">Vagas por Período</a></li>
+                <li><a href="./req.html">Requisitos:<br>Palavras-chave</a></li> 
+                <li><a href="./desc.html">Descrição:<br>Palavras-chave</a></li> 
+                <li class="active"><a href="#">Busca</a></li> 
+
+              </ul>
+            </div>
+          </div>
+
+        </div>
+
+        <div id="central" class="col-xs-10 panel well well-noBorder" style="height:600px">
+
+            <h1>Busca por vaga</h1>
+			
+			<p>Preencha os campos que deseja buscar abaixo. Não há diferença entre maiúsculas e minúsculas:</p>
+			
+            <form name="formBusca" style="width: 70%; margin: auto; float: none; padding-top: 100px;">
+            	        	
+        	    <p>
+        	    
+        	    <label for="name" class="formLabel">Título da vaga: </label>
+        	              <INPUT type="text" id="name" class="textField"><BR>
+        	    <label for="empresa" class="formLabel">Empresa: </label>
+        	              <INPUT type="text" id="empresa" class="textField"><BR>
+        	    <label for="atuacao" class="formLabel">Área de Atuação do Estágio: </label>
+        	              <INPUT type="text" id="atuacao" class="textField"><BR>
+				<label for="descricao" class="formLabel">Descrição: </label>
+				          <INPUT type="text" id="descricao" class="textField"><BR>
+				<label for="requisitos" class="formLabel">Requisitos: </label>
+				          <INPUT type="text" id="requisitos" class="textField"><BR>
+        	    <label for="beneficios" class="formLabel">Benefícios: </label>
+        	              <INPUT type="text" id="beneficios" class="textField"><BR>
+        	    <label for="contatos" class="formLabel">Contatos: </label>
+        	              <INPUT type="text" id="contatos" class="textField"><BR>
+
+        	    <input type="button" value="Buscar" class="btn btn-default" onclick="submitForm()"> <input type="reset" class="btn btn-default">
+        	    
+        	    </p>
+            	        	    
+      		</form>
+      		
+      		<div id="resultados" hidden="true">
+	            <h1>Resultados:</h1>
+	            <div class="wrapper well" style="height: 400px;"><div id="resultadosBusca"><br></div></div>
+	            <input type="button" name="reset" value="Reiniciar Busca" class="btn btn-default" style="margin-top: 5px;" onclick="resetaBusca()"/>
+			</div>
+			
+        </div>
+          
+      </div>
+      
+    </div>
+
+  </div>
+
+  <footer>
+  Projeto desenvolvido para o curso Práticas de Desenvolvimento de Software
+  </footer>
+
+  <!-- Scripts go at the bottom so the pages loads faster -->
+
+  <!-- jQuery (JavaScript library) -->
+  <script src="javascripts/jquery-2.1.0.js"></script>
+
+  <!-- Bootstrap -->
+  <script src="javascripts/bootstrap.min.js"></script>
+
+  <!--Date utility-->
+  <script type="text/javascript" src="javascripts/date.js"></script>
+
+  <!--Chart-->
+  <script type="text/javascript" src="javascripts/highcharts/highcharts.js"></script>
+  <script type="text/javascript" src="javascripts/highcharts/modules/exporting.js"></script>
+
+  <!--Spinner-->
+  <script src="javascripts/spin.min.js" type="text/javascript"></script>
+
+  <script type="text/javascript">
+  
+  	function addSpinner() {
+  		
+  		var opts = {
+  		  lines: 13, // The number of lines to draw
+  		  length: 8, // The length of each line
+  		  width: 3, // The line thickness
+  		  radius: 8, // The radius of the inner circle
+  		  corners: 1, // Corner roundness (0..1)
+  		  rotate: 0, // The rotation offset
+  		  direction: 1, // 1: clockwise, -1: counterclockwise
+  		  color: '#000', // #rgb or #rrggbb or array of colors
+  		  speed: 1, // Rounds per second
+  		  trail: 60, // Afterglow percentage
+  		  shadow: false, // Whether to render a shadow
+  		  hwaccel: false, // Whether to use hardware acceleration
+  		  className: 'spinner', // The CSS class to assign to the spinner
+  		  zIndex: 2e9, // The z-index (defaults to 2000000000)
+  		  top: '50%', // Top position relative to parent
+  		  left: '50%' // Left position relative to parent
+  		};
+  		
+  		var target = document.getElementById('central');
+  		var spinner = new Spinner(opts).spin(target);  	
+  	
+  	}
+  
+	  $(document).ready(function() {
+	    $.ajaxSetup({ cache: false });
+	  });
+
+    //Get JSON
+    $.getJSON("data/raw.json", function(data) {
+
+		//Clear loading
+		$('.spinner').fadeOut(function () {
+			$('.spinner').remove;
+		});
+
+		$("#dtColeta").append(Date.parse(data.date).toString());
+		
+		valids = data.openings.valids;
+		blanks = data.openings.blanks;
+		duplicates = data.openings.duplicates;
+		
+		var totalDups = 0;
+		for ( property in data.openings.duplicated ) totalDups += data.openings.duplicated[property].length;
+		
+		$("#numIds").append(Object.keys(valids).length + blanks.length + totalDups);
+		
+        $('#container').fadeOut(0);
+        $('#container').fadeIn(500);
+    
+	});
+	
+	function resetaBusca() {
+	
+		//Clear results div
+		$('#resultadosBusca').html('<br>');
+	
+		//Fade it out
+		$('#resultados').fadeOut(100, function() {
+		
+			//Fade form back in
+			$('form[name="formBusca"]').fadeIn();
+		
+		});	
+	
+	}
+	
+	function submitForm() {
+	
+		//Get all form attributes
+		var textFields = document.formBusca.getElementsByClassName('textField');
+		var keys = ["Título:","Empresa:","Área de Atuação do Estágio:","Descrição:","Requisitos:","Benefícios:","Contatos:"];
+		
+		var searchArguments = [];
+		
+		for (var i = 0; i < keys.length; i++) {
+		
+			if (textFields[i].value) {
+				searchArguments.push({key:keys[i], value:textFields[i].value});
+			}
+			
+		}
+		
+		if (searchArguments.length == 0) {
+			return
+		}
+
+		//Add spinner to aler the user we will start searching
+		addSpinner();
+
+		//Send to busca function
+		var results = busca(searchArguments);
+		
+		//Remove the spinner
+		$('.spinner').fadeOut(function () {
+			$('.spinner').remove;
+		});
+
+		//Append
+		$('form[name="formBusca"]').fadeOut(100, function() {
+		
+			for (var i = 0; i < results.length; i++) {
+				console.log('here');
+				var currResult = results[i];
+				
+				divToAppend = $('<div>');
+				
+				divToAppend.append($("<searchHMain>" + currResult[keys[0]] + "</searchH><br>"));
+
+				divToAppend.append(("<searchHMain>Empresa: " + currResult[keys[1]] + "</searchH><br>"));
+
+				var table = $("<table align	='center'>");
+				
+				for (var j = 2; j < keys.length; j++) {
+					
+					if (currResult[keys[j]] != '') {
+					
+						row = $('<tr>');
+						
+						col1 = $('<td>');
+						col1.append($('<searchH>').append(keys[j]));
+						col1.addClass('header');
+						row.append(col1);
+						
+						col2 = $('<td>');
+						col2.append(currResult[keys[j]] + '<br>');
+						col2.addClass('data');
+						row.append(col2);
+												
+						table.append(row);
+						
+					}
+					
+				}
+				
+				divToAppend.append(table);
+				
+				divToAppend.addClass('searchResult');
+				
+				divToAppend.click(function() {
+				
+					window.location = 'http://estagios.pcs.usp.br/aluno/vagas/exibirVaga.aspx?id=' + currResult['id'];
+				
+				}).css("cursor", "pointer");
+				
+				$('#resultadosBusca').append(divToAppend);
+
+			}
+
+			$('#resultados').fadeIn();	
+
+		});
+		
+				
+	}
+	
+	function busca(argumentos) {
+	
+		var results = [];
+	
+		//Search in every element from the 'valid' array
+		for (key in valids) {
+			
+			var shouldAdd = 1;
+			
+			//Search every argument passed in that is not blank
+			for (argIndex in argumentos) {
+			
+				var currArgument = argumentos[argIndex];
+				
+				//If any argument returns 'no match', ignore this element
+				if (currArgument.value != '' && valids[key][currArgument.key].toLowerCase().indexOf(currArgument.value.toLowerCase()) == -1) {
+					shouldAdd = 0;
+					break;
+				}
+				
+			}
+			
+			//Adds the element if it matched all inputs given
+			if (shouldAdd == 1) {
+			
+				var addMe = valids[key];
+				
+				//Add the element's id for later referencing
+				addMe['id'] = key;
+				
+				results.push(addMe);
+				
+			}
+			
+		}	
+	
+		return results;
+	
+	}
+
+</script>
+
+</body>
+
+</html>
